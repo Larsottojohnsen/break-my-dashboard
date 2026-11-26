@@ -165,7 +165,7 @@ async function main() {
     const previous = saved.results.find((result) => result.id === values.case);
     if (!previous) throw new Error("Case is absent from saved run.");
     const session =
-      values.login && !saved.demo
+      (values.login || saved.requiresLogin) && !saved.demo
         ? await login(validate(saved.config).url)
         : undefined;
     const server = saved.demo

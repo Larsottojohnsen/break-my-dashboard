@@ -1,0 +1,68 @@
+name: Prepare or publish npm
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Source branch or version tag
+        required: true
+        default: main
+        type: string
+      publish:
+        description: Publish the verified tarball using the configured npm trusted publisher
+        required: true
+        default: false
+        type: boolean
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_REF: ${{ inputs.ref }}
+      PUBLISH: ${{ inputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Check package and publication ref
+        run: |
+          node -e "const p=require('./package.json');if(p.name!=='@larsottojohnsen/break-my-dashboard')throw Error('Unexpected package');if(process.env.PUBLISH==='true'&&process.env.SOURCE_REF!=='v'+p.version)throw Error('Publish from the matching version tag');"
+          npm --version
+      - run: npm ci --ignore-scripts
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm test
+      - run: npx playwright@1.65.1 install --with-deps chromium
+      - run: npm run test:browser
+      - name: Build publication artifact
+        id: pack
+        run: |
+          mkdir release-artifacts
+          npm pack --json > release-artifacts/pack.json
+          node -e "const fs=require('fs');const [p]=JSON.parse(fs.readFileSync('release-artifacts/pack.json','utf8'));fs.appendFileSync(process.env.GITHUB_OUTPUT,'tarball='+p.filename+'\n');"
+      - name: Test the exact tarball in an independent consumer
+        env:
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: node tests/package-smoke.mjs "$TARBALL"
+      - run: node scripts/release-manifest.mjs
+      - name: Validate npm publication
+        env:
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: npm publish "$TARBALL" --dry-run --access public --ignore-scripts
+      - name: Publish npm package
+        if: inputs.publish
+        env:
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: npm publish "$TARBALL" --access public --provenance --ignore-scripts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: npm-release-artifacts
+          path: |
+            *.tgz
+            release-artifacts/

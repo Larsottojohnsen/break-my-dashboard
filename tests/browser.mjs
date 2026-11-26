@@ -81,6 +81,16 @@ test(
       );
       assert.equal(missing.report.results[0].status, "skipped");
       assert.equal(exitCode(missing.report), 2);
+      const missingSlow = await run(
+        {
+          ...demoConfig(fixed.url),
+          endpoint: { method: "GET", path: "/api/absent" },
+          viewports: [{ width: 390, height: 844 }],
+        },
+        out,
+        { caseId: "slow@390x844" },
+      );
+      assert.equal(missingSlow.report.results[0].status, "skipped");
       const offline = await run(
         {
           ...demoConfig("http://127.0.0.1:1/invoices"),

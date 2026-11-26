@@ -10,7 +10,9 @@ A skipped endpoint means the browser did not reach the configured GET. Check rou
 
 Redirect chains are resolved inside interception, with each hop checked against the original origin. Up to six hops are allowed. Content from a same-origin redirect is served at the original browser URL, which can affect applications that rely on the final URL for routing. Select the final local route directly in those applications.
 
-UI selectors must match exactly one element. A missing target in an empty or error state is a skipped position check. A configured expected state absent at its deadline is a finding. Uncaught JavaScript errors are reported as counts without copying exception contents into reports.
+UI selectors must match exactly one element. Multiple matching state elements produce a coverage skip. A missing target in an empty or error state is a skipped position check. A configured expected state absent at its deadline is a finding. Uncaught JavaScript errors are reported as counts without copying exception contents into reports.
+
+Next.js development startup can depend on an HMR boot message. The /\_next/hmr and /\_next/webpack-hmr sockets receive server messages on the selected origin. Client messages are discarded and counted as blocked writes. Other WebSocket endpoints are closed. Chromium local-network permission is scoped to the selected loopback origin inside each disposable test context.
 
 Use a fresh child output directory per run. The tool creates it exclusively. Report and screenshot names are generated from fixed scenario names and validated viewport numbers. To clean a private report, remove the specific bmd-\* directory using your file manager. Review the folder before removal.
 

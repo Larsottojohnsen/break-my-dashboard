@@ -4,7 +4,45 @@
 
 Local Playwright CLI with doctor, discover, run, demo and replay. Five response scenarios at mobile and desktop widths. HTML/JSON output with local screenshots, endpoint-hit counts, baseline attribution, measurements and reproduction commands. Synthetic invoice dashboard includes broken and fixed variants.
 
-Review docs/verification.md and successful CI artifacts before tagging v0.1.0. npm package ownership and publication remain pending. Produce the release from a clean checkout, run npm pack, inspect its file list, install that tarball in an independent app, and attach the verified tarball and synthetic evidence.
+Release notes are in release-notes.md. The owner selected @larsottojohnsen/break-my-dashboard. Registry authentication and first publication are owner steps. The release candidate has an exact-tarball consumer test, integrity manifest and manual dry-run-first workflow.
+
+## Prepare the artifact
+
+Use a clean checkout of the release source and Node 24. Run these commands from the repository root.
+
+```sh
+npm ci --ignore-scripts
+npx playwright@1.65.1 install chromium
+npm run format:check
+npm run typecheck
+npm test
+npm run test:browser
+mkdir release-artifacts
+npm pack --json > release-artifacts/pack.json
+node tests/package-smoke.mjs ./larsottojohnsen-break-my-dashboard-0.1.0.tgz
+node scripts/release-manifest.mjs
+npm publish ./larsottojohnsen-break-my-dashboard-0.1.0.tgz --dry-run --access public --ignore-scripts
+```
+
+The manifest records the source commit, Node version, complete package file list, SHA-256 and npm SHA-512 integrity. The smoke test installs that exact tarball in a separate temporary consumer and exercises the installed binary and ten scenarios.
+
+## First npm publication
+
+```sh
+npm login --auth-type=web --registry=https://registry.npmjs.org
+npm whoami
+npm publish ./larsottojohnsen-break-my-dashboard-0.1.0.tgz --access public --ignore-scripts
+```
+
+The account must own the larsottojohnsen user scope or have publishing access to it. Complete npm's requested account and two-factor-authentication checks in the browser. Compare the file's SHA-256 to checksums.txt before publication. The preparation task uses dry-run mode.
+
+## GitHub Actions publishing
+
+Run the Prepare or publish npm workflow with publish=false to verify a branch or tag and download its publication artifacts. A publishing run uses the matching version tag, such as v0.1.0, with publish=true.
+
+For OIDC publishing, configure npm's trusted publisher with GitHub owner Larsottojohnsen, repository break-my-dashboard and workflow filename npm-release.yml. The workflow uses GitHub-hosted runners, Node 24 and id-token write permission. npm requires CLI 11.5.1 or later. The package repository URL is already set. [npm trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/)
+
+The GitHub release is prepared as a draft with the verified tarball, manifest, checksums and synthetic example. Publishing the draft and the npm package are the final owner-controlled launch steps. The Show HN text below is a launch draft.
 
 ## Twenty-second recording plan
 

@@ -67,7 +67,7 @@ Reports contain scenario counts with passed, finding, skipped, and error states.
 
 ## Local data handling
 
-The browser context blocks HTTP writes, external-origin requests, service workers and WebSockets. It observes buttons without clicking them. Dependencies hosted on other origins can affect coverage and their blocked counts appear in results.
+The browser context blocks HTTP writes, external-origin requests and service workers. It observes buttons without clicking them. Next.js HMR endpoints deliver startup messages while client messages are discarded. Other WebSockets are closed. Chromium local-network permission is scoped to the selected loopback origin inside each disposable context. Blocked requests and read-only HMR connections are counted in results.
 
 Reports contain configuration and measurements. Cookies, headers, browser storage, response bodies, and exception text are excluded. SHA-256 source hashes support replay comparison. Screenshots can contain private application data. Choose an output directory outside your app repository and keep reports local. Each run creates a new exclusive `bmd-*` child directory.
 
@@ -84,13 +84,13 @@ npm pack
 
 The tarball includes compiled CLI code, demo and agent documentation. It has no browser-download install script. To install a locally produced tarball, run `npm install -g /absolute/path/to/package.tgz`, then use `break-my-dashboard doctor`. Browser installation is explicit.
 
-The proposed npm name is `@larsottojohnsen/break-my-dashboard`. npm publication and ownership verification are pending. Use checkout or the CI tarball until publication.
+The npm package name is `@larsottojohnsen/break-my-dashboard`. The release workflow prepares and tests the exact publication tarball. The first registry publication requires the package owner's npm login. Install the release tarball or use a checkout while publication is pending. [Release instructions](docs/launch.md)
 
 ## Supported setups and limits
 
-Browser-visible same-origin local GET JSON with a root or nested array is the supported data model. URL credentials, query strings and fragments are rejected to keep replay configuration private. Endpoints are exact pathnames. Authenticated apps can use a documented local test mode or the manual --login setup. Server-side API calls require an adapter beyond this version.
+Browser-visible same-origin local GET JSON with a root or nested array is the supported data model. Route queries and simple hash routes are supported. URL credentials and common authentication parameters are rejected. Endpoints are exact pathnames. Authenticated apps can use a documented local test mode or manual --login setup. Server-side API calls require an adapter beyond this version.
 
-For manual login, use an interactive terminal with a visible desktop. Add --login to discover, run or replay. Sign in with the app's local test account in the isolated browser, then press Enter in the terminal. Cookies, local storage and IndexedDB session state are passed in memory into fresh read-only scenario contexts. The setup browser closes before testing. Each command requires a fresh login. Human-driven login QA on a real application remains an open acceptance check.
+For manual login, use an interactive terminal with a visible desktop. Add --login to discover, run or replay. Sign in with the app's local test account in the isolated browser, then press Enter in the terminal. Cookies, local storage and IndexedDB session state are passed in memory into fresh read-only scenario contexts. Each command requires a fresh login. Authenticated reports add --login to replay commands. This flow was exercised on an existing local app with a human-operated test-account login.
 
 Platform results are published by CI. See [verification](docs/verification.md) for actual status. [Troubleshooting](docs/troubleshooting.md) covers missing browsers, network boundaries and coverage gaps.
 

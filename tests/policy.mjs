@@ -11,6 +11,78 @@ import { run } from "../dist/runner.js";
 import { demoConfig } from "../dist/demo.js";
 import { exitCode } from "../dist/report.js";
 import { login } from "../dist/login.js";
+import { createHash } from "node:crypto";
+import { expectedState } from "../dist/checks.js";
+
+test("ambiguous state selectors produce a coverage skip", async () => {
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage();
+    await page.setContent(
+      '<div role="alert">First</div><div role="alert">Second</div>',
+    );
+    const check = await expectedState(page, { role: "alert" }, "error", 100);
+    assert.equal(check.status, "skipped");
+  } finally {
+    await browser.close();
+  }
+});
+
+test(
+  "Next.js HMR delivers its boot message while client frames stay blocked",
+  { timeout: 15000 },
+  async () => {
+    const sockets = new Set();
+    let writes = 0;
+    let upgrades = 0;
+    const server = createServer((_request, response) => {
+      response.setHeader("content-type", "text/html");
+      response.end(
+        '<html><body><script>window.ready=false;const socket=new WebSocket("ws://"+location.host+"/_next/hmr");socket.onmessage=e=>{window.ready=e.data==="ready";socket.send("application-write")};new WebSocket("ws://"+location.host+"/application");</script></body></html>',
+      );
+    });
+    server.on("upgrade", (request, socket) => {
+      sockets.add(socket);
+      upgrades++;
+      const accept = createHash("sha1")
+        .update(
+          request.headers["sec-websocket-key"] +
+            "258EAFA5-E914-47DA-95CA-C5AB0DC85B11",
+        )
+        .digest("base64");
+      socket.write(
+        "HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: " +
+          accept +
+          "\r\n\r\n",
+      );
+      socket.write(
+        Buffer.concat([Buffer.from([0x81, 5]), Buffer.from("ready")]),
+      );
+      socket.on("data", () => writes++);
+      socket.on("error", () => {});
+    });
+    await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+    const browser = await chromium.launch();
+    try {
+      const context = await browser.newContext();
+      const url = "http://127.0.0.1:" + server.address().port;
+      const blocked = await guard(context, url);
+      const page = await context.newPage();
+      await page.goto(url);
+      await page.waitForFunction(() => window.ready === true);
+      await page.waitForTimeout(100);
+      assert.equal(upgrades, 1);
+      assert.equal(writes, 0);
+      assert.equal(blocked.hmr, 1);
+      assert.equal(blocked.writes, 1);
+      await context.close();
+    } finally {
+      await browser.close();
+      for (const socket of sockets) socket.destroy();
+      await new Promise((resolve) => server.close(resolve));
+    }
+  },
+);
 
 test(
   "authenticated contexts use memory-only session data and preserve read-only testing",
@@ -68,6 +140,7 @@ test(
         JSON.stringify(authenticated.report.results),
       );
       assert.equal(authenticated.report.results[0].mockHits, 1);
+      assert.equal(authenticated.report.requiresLogin, true);
       const serialized = await readFile(
         join(authenticated.directory, "run.json"),
         "utf8",

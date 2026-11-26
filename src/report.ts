@@ -17,7 +17,7 @@ export interface CaseResult {
   sourceHash?: string;
   replayChanged?: boolean;
   reason?: string;
-  blocked?: { writes: number; external: number };
+  blocked?: { writes: number; external: number; hmr?: number };
 }
 export interface Run {
   schemaVersion: 1;
@@ -29,6 +29,7 @@ export interface Run {
   results: CaseResult[];
   interrupted: boolean;
   requiresFreshResponse: boolean;
+  requiresLogin?: boolean;
   demo?: { fixed: boolean };
   durationMs: number;
 }
@@ -77,7 +78,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0d141c;padding:14px}button,select{padding:9px;color:inherit;background:#253646;border:1px solid #586c7e;border-radius:5px}
 [hidden]{display:none!important}a{color:#86d9cb}
 </style><main><h1>Break My Dashboard</h1>
-<p>${e(new URL(run.config.url).pathname)} · Chromium ${e(run.browserVersion)} · ${e(run.createdAt)}</p>
+<p>${e(new URL(run.config.url).pathname + new URL(run.config.url).search + new URL(run.config.url).hash)} · Chromium ${e(run.browserVersion)} · ${e(run.createdAt)}</p>
 <p>${run.results.length} / ${run.expected} scenarios · ${e(counts)}</p>
 <p>${run.interrupted ? "Interrupted. Partial report." : "Completed."} Replay ${run.requiresFreshResponse ? "uses a fresh local response. Response hashes and shapes are compared." : "uses deterministic synthetic demo fixtures."}</p>
 <div class="controls"><label><input id="findings" type="checkbox"> Findings only</label>
@@ -88,11 +89,12 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0d141c;padding:14px}
         "break-my-dashboard replay --run " +
         JSON.stringify(absoluteRunPath) +
         " --case " +
-        JSON.stringify(result.id);
+        JSON.stringify(result.id) +
+        (run.requiresLogin ? " --login" : "");
       return `<article data-status="${e(result.status)}" data-width="${result.viewport.width}"><h2>${e(result.id)}</h2><p>${e(result.status)} · ${result.mockHits} endpoint hits · ${result.changedValues} changed values · ${result.durationMs} ms</p>
 ${result.reason ? `<p>${e(result.reason)}</p>` : ""}
 ${result.replayChanged ? "<p>Fresh response differs from the original source. Reproduction may differ.</p>" : ""}
-<p>Blocked requests · writes ${result.blocked?.writes ?? 0} · external ${result.blocked?.external ?? 0}</p>
+<p>Blocked requests · writes ${result.blocked?.writes ?? 0} · external ${result.blocked?.external ?? 0} · read-only HMR ${result.blocked?.hmr ?? 0}</p>
 <table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody>${result.checks.map((check) => `<tr><td>${e(check.name)}${check.inherited ? " (baseline)" : ""}</td><td>${e(check.status)}</td><td>${e(check.expected)}</td><td>${e(check.observed)}</td></tr>`).join("")}</tbody></table>
 ${result.loadingScreenshot ? `<details><summary>Loading phase</summary><img alt="Loading phase" src="${e(result.loadingScreenshot)}"></details>` : ""}
 ${result.screenshot ? `<a href="${e(result.screenshot)}"><img alt="${e(result.id)} screenshot" src="${e(result.screenshot)}"></a>` : ""}

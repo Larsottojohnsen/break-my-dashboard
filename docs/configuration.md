@@ -34,4 +34,6 @@ One to four unique viewports are allowed, widths 240–3840 and heights 240–21
 
 The selected endpoint must return HTTP 200 JSON in the baseline. Responses are limited to 2 MiB and arrays to 10000 items. The maximum matrix has twenty scenarios. Reports omit response bodies and exception text. Configuration is at most 64 KiB. Replay retains source hashes, timing and checks and obtains a fresh response.
 
-Loopback HTTP(S) hosts are localhost, 127.0.0.1 and [::1]. URL queries, fragments, credentials and cross-origin endpoint paths are rejected. Pathname matching applies to all GET requests for the selected endpoint during a case. Multiple hits are counted.
+Loopback HTTP(S) hosts are localhost, 127.0.0.1 and [::1]. Route queries up to 2048 characters and simple hash routes up to 256 characters are supported. Hash routes contain letters, digits, underscores, hyphens and slashes. URL credentials, common authentication query parameters and cross-origin endpoint paths are rejected. Pathname matching applies to all GET requests for the selected endpoint during a case. Multiple hits are counted.
+
+State selectors that match multiple elements produce a coverage skip with the match count. Narrow the selector using a documented accessible name or stable testId. Authenticated runs save a requiresLogin flag and generated replay commands request a new interactive login. Session data remains in memory.

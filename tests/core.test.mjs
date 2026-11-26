@@ -15,6 +15,13 @@ const config = () =>
     },
   });
 test("validate local targets and configuration limits", () => {
+  assert.throws(() => localUrl(42));
+  assert.equal(
+    localUrl("http://localhost:3000/dashboard?view=tasks").search,
+    "?view=tasks",
+  );
+  assert.equal(localUrl("http://127.0.0.1:4317/#models").hash, "#models");
+  assert.throws(() => localUrl("http://localhost/#access_token=private"));
   assert.equal(config().viewports.length, 2);
   for (const url of [
     "https://example.com",
@@ -101,6 +108,8 @@ test("report escaping, spaces and exit semantics", () => {
   };
   const output = html(run, "/tmp/path with spaces/run.json");
   assert.ok(output.includes("&lt;script&gt;"));
+  run.requiresLogin = true;
+  assert.ok(html(run, "/tmp/run.json").includes(" --login"));
   assert.ok(output.includes("&quot;/tmp/path with spaces/run.json&quot;"));
   assert.ok(!output.includes('<script>alert("x")</script>'));
   assert.equal(exitCode(run), 0);

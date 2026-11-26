@@ -124,7 +124,7 @@ async function runCase(
     if (scenario === "slow") {
       const sawSlow = await Promise.race([
         slowReady.then(() => true),
-        delay(config.timing.timeoutMs, false, { signal }),
+        delay(config.timing.timeoutMs, false, { signal, ref: false }),
       ]);
       if (sawSlow) {
         result.checks.push(
@@ -147,7 +147,11 @@ async function runCase(
       throw new Error("Page unavailable");
     await Promise.race([
       finished,
-      delay(config.timing.timeoutMs, undefined, { signal }),
+      delay(
+        Math.max(1, start + config.timing.timeoutMs - Date.now()),
+        undefined,
+        { signal, ref: false },
+      ),
     ]);
     // DOM stability is bounded and independent of unrelated network activity.
     await page.waitForFunction(
@@ -292,6 +296,7 @@ export async function run(input: unknown, out: string, options: Options = {}) {
     results: [],
     interrupted: false,
     requiresFreshResponse: !options.demo,
+    requiresLogin: !!options.session,
     demo: options.demo,
     durationMs: 0,
   };

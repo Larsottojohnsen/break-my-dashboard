@@ -10,7 +10,8 @@ export async function guard(
   handle?: (route: Route) => Promise<boolean>,
 ) {
   const origin = localUrl(url).origin;
-  const blocked = { writes: 0, external: 0 };
+  const blocked = { writes: 0, external: 0, hmr: 0 };
+  await context.grantPermissions(["local-network-access"], { origin });
   await context.route("**/*", async (route) => {
     const request = route.request();
     const target = new URL(request.url());
@@ -55,8 +56,24 @@ export async function guard(
       await route.abort().catch(() => {});
     }
   });
-  // WebSockets can write outside the HTTP request guard.
-  await context.routeWebSocket(/.*/, (socket) => socket.close());
+  // Next.js dev boot needs the HMR server's initial message. Client messages
+  // are discarded so the connection cannot carry application writes.
+  await context.routeWebSocket(/.*/, (socket) => {
+    const target = new URL(socket.url());
+    const httpOrigin = new URL(socket.url().replace(/^ws/, "http")).origin;
+    if (
+      httpOrigin === origin &&
+      ["/_next/hmr", "/_next/webpack-hmr"].includes(target.pathname)
+    ) {
+      blocked.hmr++;
+      socket.connectToServer();
+      socket.onMessage(() => {
+        blocked.writes++;
+      });
+      return;
+    }
+    void socket.close();
+  });
   return blocked;
 }
 export async function readJson(response: {

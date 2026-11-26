@@ -3,4 +3,5 @@ dist/
 results/
 *.tgz
 .DS_Store
+release-artifacts/
 

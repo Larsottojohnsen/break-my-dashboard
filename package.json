@@ -4,6 +4,20 @@
   "description": "Stress-test local dashboards with Playwright and replayable evidence",
   "type": "module",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "playwright",
+    "frontend-testing",
+    "dashboard",
+    "developer-tools"
+  ],
+  "homepage": "https://github.com/Larsottojohnsen/break-my-dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/Larsottojohnsen/break-my-dashboard/issues"
+  },
   "author": "Lars Otto Johnsen",
   "repository": {
     "type": "git",

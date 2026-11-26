@@ -22,12 +22,16 @@ Browser coverage includes ten demo cases, normal state without overflow, measure
 
 Additional browser tests cover missing Chromium with a partial report, blocked writes, external navigation redirects and in-memory authenticated cookie transfer. The installed npm binary is invoked through npm exec in the independent consumer. Manual --login has a five-minute interactive setup deadline and then transfers session state into read-only contexts.
 
-## Release acceptance still to verify
+## Launch-readiness follow-up
 
-- Human-driven manual-login QA on a realistic local test application.
-- Three realistic application pilots with Codex and Claude Code, including a Next.js browser API route and an authenticated/server-data route.
-- Cold and warm timings including browser installation.
+The packaged tool was exercised against three existing local applications covering a Vite client, a Next.js browser API and a server-rendered route. Test data and authentication were isolated from operational databases. The interactive --login CLI flow was completed with a human-operated test-account login. First and warm runs, replay outcomes and a fresh Chromium download were measured. Application-specific results and screenshots are held in a private local protocol outside this repository.
+
+These pilots exposed and led to fixes for query/hash navigation, Chromium local-network permission, Next.js HMR startup, ambiguous error selectors, authenticated replay and missing-endpoint slow cases. Regression tests cover those fixes. The current suite includes three unit tests and six browser integration tests.
+
+## Open owner and research checks
+
+- npm account authentication, first publication and trusted-publisher configuration.
+- Independent one-sentence blind pilots across both Codex and Claude Code. Claude Code was installed but unauthenticated during this implementation session.
 - Three-developer comparison against existing Playwright workflows.
-- npm package-name ownership, publication and release artifact checks.
 
-No measured speed improvement or external adoption is claimed. A release should retain open checks explicitly if they cannot be completed with available access.
+The compatibility pilots used the implementing Codex session and source-guided local setup. The timing experiment used a fresh package directory and browser download with warm OS/npm caches and a prestarted application. No measured speed improvement, clean-machine agent benchmark or external adoption is claimed.

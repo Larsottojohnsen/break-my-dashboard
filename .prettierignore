@@ -3,4 +3,5 @@ dist
 node_modules
 results
 docs/example
+release-artifacts
 

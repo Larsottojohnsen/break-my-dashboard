@@ -18,7 +18,15 @@ function command(args, cwd) {
   assert.equal(result.status, 0, result.stdout + result.stderr);
   return result.stdout;
 }
-const packed = JSON.parse(command(["pack", "--json"], process.cwd()))[0];
+const supplied = process.argv[2];
+const packed = JSON.parse(
+  command(
+    supplied
+      ? ["pack", resolve(supplied), "--dry-run", "--ignore-scripts", "--json"]
+      : ["pack", "--json"],
+    process.cwd(),
+  ),
+)[0];
 assert.ok(packed.files.some((file) => file.path === "demo/index.html"));
 assert.ok(packed.files.some((file) => file.path === "dist/cli.js"));
 assert.ok(
@@ -36,7 +44,10 @@ try {
       type: "module",
     }),
   );
-  command(["install", "--ignore-scripts", resolve(packed.filename)], external);
+  command(
+    ["install", "--ignore-scripts", resolve(supplied ?? packed.filename)],
+    external,
+  );
   command(["exec", "--no", "--", "break-my-dashboard", "doctor"], external);
   // Independent synthetic app has a different route and nested response envelope.
   const { createServer } = await import("node:http");

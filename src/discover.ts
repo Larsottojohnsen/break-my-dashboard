@@ -91,7 +91,7 @@ export async function discover(input: string, session?: Session) {
     await Promise.allSettled(pending);
     return {
       schemaVersion: 1,
-      route: url.pathname,
+      route: url.pathname + url.search + url.hash,
       candidates: [...candidates.values()].sort(
         (a, b) => b.displayFields.length - a.displayFields.length,
       ),

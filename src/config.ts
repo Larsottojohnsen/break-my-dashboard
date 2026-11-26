@@ -18,17 +18,25 @@ export interface Config {
   timing: { delayMs: number; timeoutMs: number; runTimeoutMs: number };
 }
 export function localUrl(input: string): URL {
+  if (typeof input !== "string" || input.length > 4096)
+    throw new Error("URL must be a string of at most 4096 characters.");
   const url = new URL(input);
   if (
     !["http:", "https:"].includes(url.protocol) ||
     !["localhost", "127.0.0.1", "[::1]"].includes(url.hostname) ||
     url.username ||
     url.password ||
-    url.search ||
-    url.hash
+    url.search.length > 2048 ||
+    url.hash.length > 256 ||
+    (url.hash && !/^#[A-Za-z0-9_/-]+$/.test(url.hash)) ||
+    [...url.searchParams.keys()].some((key) =>
+      /token|password|secret|api.?key|^auth$|authorization|session|^code$/i.test(
+        key,
+      ),
+    )
   ) {
     throw new Error(
-      "Use a loopback HTTP(S) URL without credentials, query or fragment.",
+      "Use a loopback HTTP(S) URL without credentials or authentication parameters. Route queries and simple hash routes are supported.",
     );
   }
   return url;

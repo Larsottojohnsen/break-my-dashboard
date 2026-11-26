@@ -32,11 +32,19 @@ export async function expectedState(
     await locator(page, selector).waitFor({ state: "visible", timeout });
     return { name, status: "passed", expected: "visible", observed: "visible" };
   } catch {
+    const count = await locator(page, selector).count();
+    if (count > 1)
+      return {
+        name,
+        status: "skipped",
+        expected: "One matching state element",
+        observed: "Ambiguous selector matched " + count + " elements",
+      };
     return {
       name,
       status: "finding",
       expected: "visible",
-      observed: "absent or ambiguous at deadline",
+      observed: count === 0 ? "absent at deadline" : "hidden at deadline",
     };
   }
 }
