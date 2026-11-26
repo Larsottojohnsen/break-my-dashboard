@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "cliVersion": "0.1.0",
+  "browserVersion": "159.0.8154.6",
+  "createdAt": "2026-11-26T10:17:54.240Z",
+  "config": {
+    "schemaVersion": 1,
+    "url": "http://127.0.0.1:59573/invoices",
+    "endpoint": {
+      "method": "GET",
+      "path": "/api/invoices"
+    },
+    "data": {
+      "arrayPath": "items",
+      "longStringFields": [
+        "supplierName"
+      ],
+      "countPaths": [
+        "total"
+      ]
+    },
+    "viewports": [
+      {
+        "width": 390,
+        "height": 844
+      },
+      {
+        "width": 1440,
+        "height": 900
+      }
+    ],
+    "checks": {
+      "target": {
+        "role": "button",
+        "name": "Approve first invoice"
+      },
+      "loading": {
+        "testId": "invoices-loading"
+      },
+      "empty": {
+        "testId": "invoices-empty"
+      },
+      "error": {
+        "role": "alert"
+      }
+    },
+    "timing": {
+      "delayMs": 1000,
+      "timeoutMs": 5000,
+      "runTimeoutMs": 180000
+    }
+  },
+  "expected": 1,
+  "results": [
+    {
+      "id": "long-values@390x844",
+      "scenario": "long-values",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "passed",
+      "mockHits": 1,
+      "changedValues": 3,
+      "checks": [
+        {
+          "name": "target-visible-after-response",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "page-overflow",
+          "status": "passed",
+          "expected": 390,
+          "observed": 390
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "passed",
+          "expected": "Horizontal bounds 0–390",
+          "observed": "282–330"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 431,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "screenshot": "long-values@390x844.png",
+      "replayChanged": false
+    }
+  ],
+  "interrupted": false,
+  "requiresFreshResponse": false,
+  "demo": {
+    "fixed": true
+  },
+  "durationMs": 527
+}

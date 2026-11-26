@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>Break My Dashboard report</title><style>
+:root{color-scheme:dark}body{font:16px system-ui;background:#111820;color:#e5edf3;margin:0;padding:32px}
+main{max-width:1400px;margin:auto}h1{font-size:36px;margin-bottom:8px}p{color:#b9c7d1}
+.controls{display:flex;gap:20px;flex-wrap:wrap;margin:28px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:20px}
+article{border:1px solid #354454;border-radius:12px;padding:20px;min-width:0;background:#17222d}
+article[data-status=finding]{border-color:#e4a44b}article[data-status=error]{border-color:#eb7285}
+img{width:100%;max-height:480px;object-fit:contain;object-position:top;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 5px;border-bottom:1px solid #354454;overflow-wrap:anywhere}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0d141c;padding:14px}button,select{padding:9px;color:inherit;background:#253646;border:1px solid #586c7e;border-radius:5px}
+[hidden]{display:none!important}a{color:#86d9cb}
+</style><main><h1>Break My Dashboard</h1>
+<p>/invoices · Chromium 159.0.8154.6 · 2026-11-26T10:17:54.240Z</p>
+<p>1 / 1 scenarios · passed 1 · finding 0 · skipped 0 · error 0</p>
+<p>Completed. Replay uses deterministic synthetic demo fixtures.</p>
+<div class="controls"><label><input id="findings" type="checkbox"> Findings only</label>
+<label>Width <select id="width"><option value="">All viewports</option><option>390</option><option>1440</option></select></label></div>
+<div class="grid"><article data-status="passed" data-width="390"><h2>long-values@390x844</h2><p>passed · 1 endpoint hits · 3 changed values · 431 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>target-visible-after-response</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>page-overflow</td><td>passed</td><td>390</td><td>390</td></tr><tr><td>target-horizontal-position</td><td>passed</td><td>Horizontal bounds 0–390</td><td>282–330</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+
+<a href="long-values@390x844.png"><img alt="long-values@390x844 screenshot" src="long-values@390x844.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/fixed/run.json&quot; --case &quot;long-values@390x844&quot;</pre><button class="copy">Copy replay command</button></article></div></main><script>
+const apply=()=>document.querySelectorAll('article').forEach(card=>card.hidden=(document.querySelector('#findings').checked&&card.dataset.status!=='finding')||(document.querySelector('#width').value&&card.dataset.width!==document.querySelector('#width').value));
+document.querySelectorAll('input,select').forEach(control=>control.addEventListener('change',apply));
+document.querySelectorAll('.copy').forEach(button=>button.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(button.previousElementSibling.textContent);button.textContent='Copied'}catch{button.textContent='Select the command above to copy'}}));
+</script></html>

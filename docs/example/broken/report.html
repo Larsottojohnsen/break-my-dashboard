@@ -1,0 +1,95 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+<title>Break My Dashboard report</title><style>
+:root{color-scheme:dark}body{font:16px system-ui;background:#111820;color:#e5edf3;margin:0;padding:32px}
+main{max-width:1400px;margin:auto}h1{font-size:36px;margin-bottom:8px}p{color:#b9c7d1}
+.controls{display:flex;gap:20px;flex-wrap:wrap;margin:28px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,500px),1fr));gap:20px}
+article{border:1px solid #354454;border-radius:12px;padding:20px;min-width:0;background:#17222d}
+article[data-status=finding]{border-color:#e4a44b}article[data-status=error]{border-color:#eb7285}
+img{width:100%;max-height:480px;object-fit:contain;object-position:top;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 5px;border-bottom:1px solid #354454;overflow-wrap:anywhere}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0d141c;padding:14px}button,select{padding:9px;color:inherit;background:#253646;border:1px solid #586c7e;border-radius:5px}
+[hidden]{display:none!important}a{color:#86d9cb}
+</style><main><h1>Break My Dashboard</h1>
+<p>/invoices · Chromium 159.0.8154.6 · 2026-11-26T10:17:38.063Z</p>
+<p>10 / 10 scenarios · passed 6 · finding 4 · skipped 0 · error 0</p>
+<p>Completed. Replay uses deterministic synthetic demo fixtures.</p>
+<div class="controls"><label><input id="findings" type="checkbox"> Findings only</label>
+<label>Width <select id="width"><option value="">All viewports</option><option>390</option><option>1440</option></select></label></div>
+<div class="grid"><article data-status="passed" data-width="390"><h2>normal@390x844</h2><p>passed · 1 endpoint hits · 0 changed values · 462 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>target-visible-after-response</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>page-overflow</td><td>passed</td><td>390</td><td>390</td></tr><tr><td>target-horizontal-position</td><td>passed</td><td>Horizontal bounds 0–390</td><td>293–340</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+
+<a href="normal@390x844.png"><img alt="normal@390x844 screenshot" src="normal@390x844.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;normal@390x844&quot;</pre><button class="copy">Copy replay command</button></article><article data-status="passed" data-width="390"><h2>empty@390x844</h2><p>passed · 1 endpoint hits · 3 changed values · 396 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>empty-state</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>page-overflow</td><td>passed</td><td>390</td><td>390</td></tr><tr><td>target-horizontal-position</td><td>skipped</td><td>One visible target</td><td>Target absent or ambiguous in this state</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+
+<a href="empty@390x844.png"><img alt="empty@390x844 screenshot" src="empty@390x844.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;empty@390x844&quot;</pre><button class="copy">Copy replay command</button></article><article data-status="passed" data-width="390"><h2>slow@390x844</h2><p>passed · 1 endpoint hits · 0 changed values · 1382 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>loading-during-delay</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>target-visible-after-response</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>loading-after-response</td><td>passed</td><td>hidden</td><td>hidden</td></tr><tr><td>page-overflow</td><td>passed</td><td>390</td><td>390</td></tr><tr><td>target-horizontal-position</td><td>passed</td><td>Horizontal bounds 0–390</td><td>293–340</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+<details><summary>Loading phase</summary><img alt="Loading phase" src="slow@390x844-loading.png"></details>
+<a href="slow@390x844.png"><img alt="slow@390x844 screenshot" src="slow@390x844.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;slow@390x844&quot;</pre><button class="copy">Copy replay command</button></article><article data-status="finding" data-width="390"><h2>http-500@390x844</h2><p>finding · 1 endpoint hits · 0 changed values · 5385 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>http-500-state</td><td>finding</td><td>visible</td><td>absent or ambiguous at deadline</td></tr><tr><td>page-overflow</td><td>passed</td><td>390</td><td>390</td></tr><tr><td>target-horizontal-position</td><td>skipped</td><td>One visible target</td><td>Target absent or ambiguous in this state</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+
+<a href="http-500@390x844.png"><img alt="http-500@390x844 screenshot" src="http-500@390x844.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;http-500@390x844&quot;</pre><button class="copy">Copy replay command</button></article><article data-status="finding" data-width="390"><h2>long-values@390x844</h2><p>finding · 1 endpoint hits · 3 changed values · 390 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>target-visible-after-response</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>page-overflow</td><td>finding</td><td>390</td><td>4631</td></tr><tr><td>target-horizontal-position</td><td>finding</td><td>Horizontal bounds 0–390</td><td>4579–4627</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+
+<a href="long-values@390x844.png"><img alt="long-values@390x844 screenshot" src="long-values@390x844.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;long-values@390x844&quot;</pre><button class="copy">Copy replay command</button></article><article data-status="passed" data-width="1440"><h2>normal@1440x900</h2><p>passed · 1 endpoint hits · 0 changed values · 422 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>target-visible-after-response</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>page-overflow</td><td>passed</td><td>1440</td><td>1440</td></tr><tr><td>target-horizontal-position</td><td>passed</td><td>Horizontal bounds 0–1440</td><td>1036–1117</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+
+<a href="normal@1440x900.png"><img alt="normal@1440x900 screenshot" src="normal@1440x900.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;normal@1440x900&quot;</pre><button class="copy">Copy replay command</button></article><article data-status="passed" data-width="1440"><h2>empty@1440x900</h2><p>passed · 1 endpoint hits · 3 changed values · 398 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>empty-state</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>page-overflow</td><td>passed</td><td>1440</td><td>1440</td></tr><tr><td>target-horizontal-position</td><td>skipped</td><td>One visible target</td><td>Target absent or ambiguous in this state</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+
+<a href="empty@1440x900.png"><img alt="empty@1440x900 screenshot" src="empty@1440x900.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;empty@1440x900&quot;</pre><button class="copy">Copy replay command</button></article><article data-status="passed" data-width="1440"><h2>slow@1440x900</h2><p>passed · 1 endpoint hits · 0 changed values · 1418 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>loading-during-delay</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>target-visible-after-response</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>loading-after-response</td><td>passed</td><td>hidden</td><td>hidden</td></tr><tr><td>page-overflow</td><td>passed</td><td>1440</td><td>1440</td></tr><tr><td>target-horizontal-position</td><td>passed</td><td>Horizontal bounds 0–1440</td><td>1036–1117</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+<details><summary>Loading phase</summary><img alt="Loading phase" src="slow@1440x900-loading.png"></details>
+<a href="slow@1440x900.png"><img alt="slow@1440x900 screenshot" src="slow@1440x900.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;slow@1440x900&quot;</pre><button class="copy">Copy replay command</button></article><article data-status="finding" data-width="1440"><h2>http-500@1440x900</h2><p>finding · 1 endpoint hits · 0 changed values · 5381 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>http-500-state</td><td>finding</td><td>visible</td><td>absent or ambiguous at deadline</td></tr><tr><td>page-overflow</td><td>passed</td><td>1440</td><td>1440</td></tr><tr><td>target-horizontal-position</td><td>skipped</td><td>One visible target</td><td>Target absent or ambiguous in this state</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+
+<a href="http-500@1440x900.png"><img alt="http-500@1440x900 screenshot" src="http-500@1440x900.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;http-500@1440x900&quot;</pre><button class="copy">Copy replay command</button></article><article data-status="finding" data-width="1440"><h2>long-values@1440x900</h2><p>finding · 1 endpoint hits · 3 changed values · 422 ms</p>
+
+
+<p>Blocked requests · writes 0 · external 0</p>
+<table><thead><tr><th>Check</th><th>Status</th><th>Expected</th><th>Observed</th></tr></thead><tbody><tr><td>target-visible-after-response</td><td>passed</td><td>visible</td><td>visible</td></tr><tr><td>page-overflow</td><td>finding</td><td>1440</td><td>6188</td></tr><tr><td>target-horizontal-position</td><td>finding</td><td>Horizontal bounds 0–1440</td><td>6096–6176</td></tr><tr><td>uncaught-javascript-errors</td><td>passed</td><td>0</td><td>0</td></tr></tbody></table>
+
+<a href="long-values@1440x900.png"><img alt="long-values@1440x900 screenshot" src="long-values@1440x900.png"></a>
+<pre>break-my-dashboard replay --run &quot;/local/synthetic-demo/broken/run.json&quot; --case &quot;long-values@1440x900&quot;</pre><button class="copy">Copy replay command</button></article></div></main><script>
+const apply=()=>document.querySelectorAll('article').forEach(card=>card.hidden=(document.querySelector('#findings').checked&&card.dataset.status!=='finding')||(document.querySelector('#width').value&&card.dataset.width!==document.querySelector('#width').value));
+document.querySelectorAll('input,select').forEach(control=>control.addEventListener('change',apply));
+document.querySelectorAll('.copy').forEach(button=>button.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(button.previousElementSibling.textContent);button.textContent='Copied'}catch{button.textContent='Select the command above to copy'}}));
+</script></html>

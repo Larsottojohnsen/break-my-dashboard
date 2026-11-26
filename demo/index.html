@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Northline · Invoices</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #f4f5f0;
+      color: #25362e;
+      font: 15px system-ui;
+    }
+    header {
+      padding: 22px 5vw;
+      border-bottom: 1px solid #d9dfd6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+    }
+    .brand {
+      font-weight: 750;
+      font-size: 22px;
+      letter-spacing: -1px;
+    }
+    header span {
+      color: #66766a;
+      font-size: 13px;
+    }
+    main {
+      padding: 45px 5vw;
+      max-width: 1250px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 40px;
+      letter-spacing: -1.5px;
+      margin: 8px 0;
+    }
+    .subtitle {
+      color: #728075;
+      margin-bottom: 32px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 28px 0;
+    }
+    .summary section {
+      border: 1px solid #d7dfd2;
+      border-radius: 10px;
+      padding: 22px;
+      background: #fff;
+    }
+    .summary strong {
+      display: block;
+      font-size: 28px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    .panel {
+      background: white;
+      border: 1px solid #d7dfd2;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    h2 {
+      font-size: 18px;
+      margin: 0 0 22px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    td,
+    th {
+      text-align: left;
+      padding: 18px 12px;
+      border-top: 1px solid #e6eae2;
+    }
+    th {
+      font-weight: 500;
+      color: #6d7f70;
+      font-size: 12px;
+    }
+    .supplier {
+      white-space: nowrap;
+    }
+    button {
+      background: #285d48;
+      color: white;
+      border: 0;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font: inherit;
+    }
+    .badge {
+      background: #fff0d1;
+      color: #8e691b;
+      border-radius: 20px;
+      padding: 5px 9px;
+      font-size: 12px;
+    }
+    .state {
+      padding: 40px 10px;
+      text-align: center;
+      color: #66766a;
+    }
+    [role="alert"] {
+      color: #a52f2f;
+      background: #fff0ec;
+      padding: 24px;
+      border-radius: 8px;
+    }
+    .fixed table {
+      table-layout: fixed;
+    }
+    .fixed .supplier {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+    .fixed td {
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 600px) {
+      main {
+        padding: 24px 16px;
+      }
+      header {
+        padding: 18px 16px;
+      }
+      header span {
+        display: none;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      .summary {
+        gap: 8px;
+      }
+      .summary section {
+        padding: 12px 8px;
+        font-size: 11px;
+      }
+      .summary strong {
+        font-size: 19px;
+      }
+      .panel {
+        padding: 12px;
+      }
+      td,
+      th {
+        padding: 12px 4px;
+        font-size: 11px;
+      }
+      .badge {
+        padding: 4px;
+        font-size: 10px;
+      }
+      button {
+        font-size: 10px;
+        padding: 8px 5px;
+      }
+      .invoice-id {
+        display: none;
+      }
+    }
+  </style>
+  <header>
+    <div class="brand">◈ Northline</div>
+    <span>Workspace / Finance</span>
+  </header>
+  <main>
+    <p>FINANCE</p>
+    <h1>Your invoices, in view.</h1>
+    <p class="subtitle">Review supplier invoices and keep payments moving.</p>
+    <div class="summary">
+      <section>Awaiting approval<strong>€4,440</strong></section>
+      <section>Invoices this month<strong>3</strong></section>
+      <section>Paid this month<strong>€12,680</strong></section>
+    </div>
+    <section class="panel">
+      <h2>Awaiting approval</h2>
+      <div id="content">
+        <div class="state" data-testid="invoices-loading">
+          Loading invoices…
+        </div>
+      </div>
+    </section>
+  </main>
+  <script type="module">
+    const fixed = /*DEMO_FIXED*/ false;
+    document.body.classList.toggle("fixed", fixed);
+    const content = document.querySelector("#content");
+    try {
+      const response = await fetch("/api/invoices");
+      if (!response.ok) throw new Error("Could not load invoices");
+      const data = await response.json();
+      content.replaceChildren();
+      if (!data.items.length) {
+        const empty = document.createElement("p");
+        empty.className = "state";
+        empty.dataset.testid = "invoices-empty";
+        empty.textContent = "All caught up. No invoices to approve.";
+        content.append(empty);
+      } else {
+        const table = document.createElement("table");
+        table.innerHTML =
+          '<thead><tr><th class="invoice-id">Invoice</th><th>Supplier</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>';
+        const tbody = document.createElement("tbody");
+        data.items.forEach((item, index) => {
+          const row = document.createElement("tr");
+          [item.id, item.supplierName, item.amount, item.status].forEach(
+            (text, column) => {
+              const cell = document.createElement("td");
+              cell.textContent = text;
+              if (column === 0) cell.className = "invoice-id";
+              if (column === 1) cell.className = "supplier";
+              if (column === 3) {
+                const badge = document.createElement("span");
+                badge.className = "badge";
+                badge.textContent = text;
+                cell.replaceChildren(badge);
+              }
+              row.append(cell);
+            },
+          );
+          const action = document.createElement("td");
+          const button = document.createElement("button");
+          button.textContent = "Approve";
+          button.setAttribute(
+            "aria-label",
+            index === 0
+              ? "Approve first invoice"
+              : "Approve invoice " + item.id,
+          );
+          button.addEventListener("click", () => {
+            button.textContent = "Approved";
+            button.disabled = true;
+          });
+          action.append(button);
+          row.append(action);
+          tbody.append(row);
+        });
+        table.append(tbody);
+        content.append(table);
+      }
+    } catch {
+      if (fixed) {
+        content.innerHTML =
+          '<div role="alert">Invoices could not be loaded. Please try again.</div>';
+      }
+      // Intentional broken mode retains the spinner on HTTP 500.
+    }
+  </script>
+</html>

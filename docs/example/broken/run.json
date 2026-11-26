@@ -1,0 +1,538 @@
+{
+  "schemaVersion": 1,
+  "cliVersion": "0.1.0",
+  "browserVersion": "159.0.8154.6",
+  "createdAt": "2026-11-26T10:17:38.063Z",
+  "config": {
+    "schemaVersion": 1,
+    "url": "http://127.0.0.1:59572/invoices",
+    "endpoint": {
+      "method": "GET",
+      "path": "/api/invoices"
+    },
+    "data": {
+      "arrayPath": "items",
+      "longStringFields": [
+        "supplierName"
+      ],
+      "countPaths": [
+        "total"
+      ]
+    },
+    "viewports": [
+      {
+        "width": 390,
+        "height": 844
+      },
+      {
+        "width": 1440,
+        "height": 900
+      }
+    ],
+    "checks": {
+      "target": {
+        "role": "button",
+        "name": "Approve first invoice"
+      },
+      "loading": {
+        "testId": "invoices-loading"
+      },
+      "empty": {
+        "testId": "invoices-empty"
+      },
+      "error": {
+        "role": "alert"
+      }
+    },
+    "timing": {
+      "delayMs": 1000,
+      "timeoutMs": 5000,
+      "runTimeoutMs": 180000
+    }
+  },
+  "expected": 10,
+  "results": [
+    {
+      "id": "normal@390x844",
+      "scenario": "normal",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "passed",
+      "mockHits": 1,
+      "changedValues": 0,
+      "checks": [
+        {
+          "name": "target-visible-after-response",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "page-overflow",
+          "status": "passed",
+          "expected": 390,
+          "observed": 390
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "passed",
+          "expected": "Horizontal bounds 0–390",
+          "observed": "293–340"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 462,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "screenshot": "normal@390x844.png"
+    },
+    {
+      "id": "empty@390x844",
+      "scenario": "empty",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "passed",
+      "mockHits": 1,
+      "changedValues": 3,
+      "checks": [
+        {
+          "name": "empty-state",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "page-overflow",
+          "status": "passed",
+          "expected": 390,
+          "observed": 390
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "skipped",
+          "expected": "One visible target",
+          "observed": "Target absent or ambiguous in this state"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 396,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "screenshot": "empty@390x844.png"
+    },
+    {
+      "id": "slow@390x844",
+      "scenario": "slow",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "passed",
+      "mockHits": 1,
+      "changedValues": 0,
+      "checks": [
+        {
+          "name": "loading-during-delay",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "target-visible-after-response",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "loading-after-response",
+          "status": "passed",
+          "expected": "hidden",
+          "observed": "hidden"
+        },
+        {
+          "name": "page-overflow",
+          "status": "passed",
+          "expected": 390,
+          "observed": 390
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "passed",
+          "expected": "Horizontal bounds 0–390",
+          "observed": "293–340"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 1382,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "loadingScreenshot": "slow@390x844-loading.png",
+      "screenshot": "slow@390x844.png"
+    },
+    {
+      "id": "http-500@390x844",
+      "scenario": "http-500",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "finding",
+      "mockHits": 1,
+      "changedValues": 0,
+      "checks": [
+        {
+          "name": "http-500-state",
+          "status": "finding",
+          "expected": "visible",
+          "observed": "absent or ambiguous at deadline"
+        },
+        {
+          "name": "page-overflow",
+          "status": "passed",
+          "expected": 390,
+          "observed": 390
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "skipped",
+          "expected": "One visible target",
+          "observed": "Target absent or ambiguous in this state"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 5385,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "screenshot": "http-500@390x844.png"
+    },
+    {
+      "id": "long-values@390x844",
+      "scenario": "long-values",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "finding",
+      "mockHits": 1,
+      "changedValues": 3,
+      "checks": [
+        {
+          "name": "target-visible-after-response",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "page-overflow",
+          "status": "finding",
+          "expected": 390,
+          "observed": 4631
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "finding",
+          "expected": "Horizontal bounds 0–390",
+          "observed": "4579–4627"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 390,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "screenshot": "long-values@390x844.png"
+    },
+    {
+      "id": "normal@1440x900",
+      "scenario": "normal",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "passed",
+      "mockHits": 1,
+      "changedValues": 0,
+      "checks": [
+        {
+          "name": "target-visible-after-response",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "page-overflow",
+          "status": "passed",
+          "expected": 1440,
+          "observed": 1440
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "passed",
+          "expected": "Horizontal bounds 0–1440",
+          "observed": "1036–1117"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 422,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "screenshot": "normal@1440x900.png"
+    },
+    {
+      "id": "empty@1440x900",
+      "scenario": "empty",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "passed",
+      "mockHits": 1,
+      "changedValues": 3,
+      "checks": [
+        {
+          "name": "empty-state",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "page-overflow",
+          "status": "passed",
+          "expected": 1440,
+          "observed": 1440
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "skipped",
+          "expected": "One visible target",
+          "observed": "Target absent or ambiguous in this state"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 398,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "screenshot": "empty@1440x900.png"
+    },
+    {
+      "id": "slow@1440x900",
+      "scenario": "slow",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "passed",
+      "mockHits": 1,
+      "changedValues": 0,
+      "checks": [
+        {
+          "name": "loading-during-delay",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "target-visible-after-response",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "loading-after-response",
+          "status": "passed",
+          "expected": "hidden",
+          "observed": "hidden"
+        },
+        {
+          "name": "page-overflow",
+          "status": "passed",
+          "expected": 1440,
+          "observed": 1440
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "passed",
+          "expected": "Horizontal bounds 0–1440",
+          "observed": "1036–1117"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 1418,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "loadingScreenshot": "slow@1440x900-loading.png",
+      "screenshot": "slow@1440x900.png"
+    },
+    {
+      "id": "http-500@1440x900",
+      "scenario": "http-500",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "finding",
+      "mockHits": 1,
+      "changedValues": 0,
+      "checks": [
+        {
+          "name": "http-500-state",
+          "status": "finding",
+          "expected": "visible",
+          "observed": "absent or ambiguous at deadline"
+        },
+        {
+          "name": "page-overflow",
+          "status": "passed",
+          "expected": 1440,
+          "observed": 1440
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "skipped",
+          "expected": "One visible target",
+          "observed": "Target absent or ambiguous in this state"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 5381,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "screenshot": "http-500@1440x900.png"
+    },
+    {
+      "id": "long-values@1440x900",
+      "scenario": "long-values",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": "finding",
+      "mockHits": 1,
+      "changedValues": 3,
+      "checks": [
+        {
+          "name": "target-visible-after-response",
+          "status": "passed",
+          "expected": "visible",
+          "observed": "visible"
+        },
+        {
+          "name": "page-overflow",
+          "status": "finding",
+          "expected": 1440,
+          "observed": 6188
+        },
+        {
+          "name": "target-horizontal-position",
+          "status": "finding",
+          "expected": "Horizontal bounds 0–1440",
+          "observed": "6096–6176"
+        },
+        {
+          "name": "uncaught-javascript-errors",
+          "status": "passed",
+          "expected": 0,
+          "observed": 0
+        }
+      ],
+      "durationMs": 422,
+      "blocked": {
+        "writes": 0,
+        "external": 0
+      },
+      "sourceShape": "5825d91c52d16118a5ea7a4a6336faa0919f298265bfa5dfdb8f2b14a38ed9f7",
+      "sourceHash": "77c6a45c8d5d6677eb0d4d5e2c7df2fdcfba5505731d8320ef2c65065c296f7e",
+      "screenshot": "long-values@1440x900.png"
+    }
+  ],
+  "interrupted": false,
+  "requiresFreshResponse": false,
+  "demo": {
+    "fixed": false
+  },
+  "durationMs": 16174
+}
