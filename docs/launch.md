@@ -38,9 +38,11 @@ The account must own the larsottojohnsen user scope or have publishing access to
 
 ## GitHub Actions publishing
 
-Run the Prepare or publish npm workflow with publish=false to verify a branch or tag and download its publication artifacts. A publishing run uses the matching version tag, such as v0.1.0, with publish=true.
+Publishing a GitHub release automatically starts the Prepare or publish npm workflow. Set the package version and lockfile first, commit the changes and create the matching tag, such as v0.1.1. Publish the GitHub release for that tag. The workflow tests the exact tarball, publishes with OIDC and provenance, and retains the publication artifacts. Stable package versions use latest, and prerelease versions use next.
 
-For OIDC publishing, configure npm's trusted publisher with GitHub owner Larsottojohnsen, repository break-my-dashboard and workflow filename npm-release.yml. The workflow uses GitHub-hosted runners, Node 24 and id-token write permission. npm requires CLI 11.5.1 or later. The package repository URL is already set. [npm trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/)
+Run the workflow manually with publish=false to verify a branch or tag, including the live npm OIDC exchange. A manual publishing run uses the matching version tag with publish=true. Concurrent runs for the same ref are serialized. Retrying an already published version completes with an explicit skip. npm processing can delay registry availability after a successful publication.
+
+The npm trusted publisher uses GitHub owner Larsottojohnsen, repository break-my-dashboard and workflow filename npm-release.yml, with direct publish permission enabled. The workflow uses GitHub-hosted runners, Node 24 and id-token write permission. It verifies the package-scoped OIDC exchange on every run and holds exchanged tokens only in memory. npm requires CLI 11.5.1 or later. The package repository URL is already set. [npm trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/)
 
 The public GitHub v0.1.0 release includes the verified tarball, manifest, checksums, demo recording and synthetic example. The Show HN text below is a launch draft.
 
