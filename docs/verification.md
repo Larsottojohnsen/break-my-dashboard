@@ -28,9 +28,15 @@ The packaged tool was exercised against three existing local applications coveri
 
 These pilots exposed and led to fixes for query/hash navigation, Chromium local-network permission, Next.js HMR startup, ambiguous error selectors, authenticated replay and missing-endpoint slow cases. Regression tests cover those fixes. The current suite includes three unit tests and six browser integration tests.
 
+## Public release verification
+
+Version 0.1.0 was published to npm on 26 November 2026 with latest pointing to 0.1.0. The registry tarball matches the verified release artifact with SHA-256 3beb12ef72f1d26330abeb7b6789e706209849ed0acddaf43a246656f6a3d926. The package was downloaded back from the public registry and its installed binary passed doctor plus ten scenarios against the independent synthetic consumer app. The public GitHub release includes that tarball and its manifest, checksums, validated demo recording and synthetic sample report.
+
+The runtime revision 881455a passed the three-platform matrix with three unit tests and six browser integration tests. The final source revision f9c68fd corrected the demo video and passed release preparation, including exact-tarball smoke and npm dry run. [Cross-platform CI](https://github.com/Larsottojohnsen/break-my-dashboard/actions/runs/45815306385) · [Release preparation](https://github.com/Larsottojohnsen/break-my-dashboard/actions/runs/45816924146)
+
 ## Open owner and research checks
 
-- npm account authentication, first publication and trusted-publisher configuration.
+- Trusted-publisher configuration for future automated npm releases.
 - Independent one-sentence blind pilots across both Codex and Claude Code. Claude Code was installed but unauthenticated during this implementation session.
 - Three-developer comparison against existing Playwright workflows.
 

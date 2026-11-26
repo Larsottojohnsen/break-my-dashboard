@@ -1,10 +1,10 @@
-# Launch preparation
+# Launch and release
 
-## Proposed v0.1.0 release notes
+## v0.1.0 release
 
 Local Playwright CLI with doctor, discover, run, demo and replay. Five response scenarios at mobile and desktop widths. HTML/JSON output with local screenshots, endpoint-hit counts, baseline attribution, measurements and reproduction commands. Synthetic invoice dashboard includes broken and fixed variants.
 
-Release notes are in release-notes.md. The owner selected @larsottojohnsen/break-my-dashboard. Registry authentication and first publication are owner steps. The release candidate has an exact-tarball consumer test, integrity manifest and manual dry-run-first workflow.
+Version 0.1.0 was published on 26 November 2026 as @larsottojohnsen/break-my-dashboard. Release notes are in release-notes.md. The release has an exact-tarball consumer test, integrity manifest and manual dry-run-first workflow.
 
 ## Prepare the artifact
 
@@ -42,7 +42,7 @@ Run the Prepare or publish npm workflow with publish=false to verify a branch or
 
 For OIDC publishing, configure npm's trusted publisher with GitHub owner Larsottojohnsen, repository break-my-dashboard and workflow filename npm-release.yml. The workflow uses GitHub-hosted runners, Node 24 and id-token write permission. npm requires CLI 11.5.1 or later. The package repository URL is already set. [npm trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/)
 
-The GitHub release is prepared as a draft with the verified tarball, manifest, checksums and synthetic example. Publishing the draft and the npm package are the final owner-controlled launch steps. The Show HN text below is a launch draft.
+The public GitHub v0.1.0 release includes the verified tarball, manifest, checksums, demo recording and synthetic example. The Show HN text below is a launch draft.
 
 ## Twenty-second recording plan
 

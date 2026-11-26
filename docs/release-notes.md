@@ -2,7 +2,7 @@
 
 Find the dashboard bugs your demo data hides.
 
-This release candidate provides a local TypeScript and Playwright CLI for running five API-response states at mobile and desktop widths. Reports include screenshots, page-width measurements, action positions, endpoint-hit counts and replay commands.
+This release provides a local TypeScript and Playwright CLI for running five API-response states at mobile and desktop widths. Reports include screenshots, page-width measurements, action positions, endpoint-hit counts and replay commands.
 
 ## Included
 
@@ -14,12 +14,12 @@ This release candidate provides a local TypeScript and Playwright CLI for runnin
 - Synthetic invoice dashboard with broken and fixed modes, screenshots and a browser recording.
 - Locked dependencies, cross-platform CI, installed-package smoke and publication integrity checks.
 
-## Try the release artifact
+## Try v0.1.0
 
-Use Node 24 LTS. Download the attached npm tarball and run these commands from its directory.
+Use Node 24 LTS and install the version-pinned npm package.
 
 ```sh
-npm install -g ./larsottojohnsen-break-my-dashboard-0.1.0.tgz
+npm install -g @larsottojohnsen/break-my-dashboard@0.1.0
 npx playwright@1.65.1 install chromium
 break-my-dashboard doctor
 break-my-dashboard demo --out ./results

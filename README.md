@@ -18,22 +18,21 @@ The synthetic Windows run completed ten scenarios with four finding scenarios, c
 
 ## Try the invoice demo
 
-Requires Node 24 LTS. From a checkout, run these commands.
+Requires Node 24 LTS. Install the published release and Chromium.
 
 ```sh
-npm install
+npm install -g @larsottojohnsen/break-my-dashboard@0.1.0
 npx playwright@1.65.1 install chromium
-npm run build
-node dist/cli.js doctor
-node dist/cli.js demo --out "./results"
+break-my-dashboard doctor
+break-my-dashboard demo --out "./results"
 ```
 
 The broken demo intentionally returns exit code 1 when findings are detected. A successful test run can therefore have a nonzero exit code.
 
 ```sh
-node dist/cli.js demo --fixed --out "./results"
-node dist/cli.js replay --run "/absolute/path/to/results/bmd-XXXXXX/run.json" --case "long-values@390x844"
-node dist/cli.js replay --run "/absolute/path/to/results/bmd-XXXXXX/run.json" --case "long-values@390x844" --fixed
+break-my-dashboard demo --fixed --out "./results"
+break-my-dashboard replay --run "/absolute/path/to/results/bmd-XXXXXX/run.json" --case "long-values@390x844"
+break-my-dashboard replay --run "/absolute/path/to/results/bmd-XXXXXX/run.json" --case "long-values@390x844" --fixed
 ```
 
 Demo replay starts its own deterministic fixture server. Real-app replay reuses your local server and compares source response hashes and shape hashes.
@@ -45,8 +44,8 @@ Synthetic reports and the packed npm tarball are available in successful [CI art
 ## Test your app
 
 ```sh
-node dist/cli.js discover --url http://127.0.0.1:3000/invoices --out "/tmp/dashboard checks" --json
-node dist/cli.js run --config "/tmp/dashboard checks/config.json" --out "/tmp/dashboard checks"
+break-my-dashboard discover --url http://127.0.0.1:3000/invoices --out "/tmp/dashboard checks" --json
+break-my-dashboard run --config "/tmp/dashboard checks/config.json" --out "/tmp/dashboard checks"
 ```
 
 Use discovery and application source to identify one browser-visible local GET JSON endpoint. Confirm selectors and expected UI states. See [configuration](docs/configuration.md) for the complete configuration.
@@ -84,7 +83,7 @@ npm pack
 
 The tarball includes compiled CLI code, demo and agent documentation. It has no browser-download install script. To install a locally produced tarball, run `npm install -g /absolute/path/to/package.tgz`, then use `break-my-dashboard doctor`. Browser installation is explicit.
 
-The npm package name is `@larsottojohnsen/break-my-dashboard`. The release workflow prepares and tests the exact publication tarball. The first registry publication requires the package owner's npm login. Install the release tarball or use a checkout while publication is pending. [Release instructions](docs/launch.md)
+Version 0.1.0 is published on npm. The release workflow prepares and tests the exact publication tarball. [npm package](https://www.npmjs.com/package/@larsottojohnsen/break-my-dashboard) · [GitHub release](https://github.com/Larsottojohnsen/break-my-dashboard/releases/tag/v0.1.0) · [Release instructions](docs/launch.md)
 
 ## Supported setups and limits
 
