@@ -12,6 +12,8 @@ The dashboard, standalone report and fixed mobile screenshot were visually inspe
 
 ## Automated coverage
 
+The source revision c0f122e passed all jobs on Linux, macOS and Windows on 2026-11-26. Each job completed formatting, typecheck, three unit tests, four browser integration tests, installed-package smoke and broken/fixed demo generation. Each platform has a downloadable artifact with its synthetic reports, lockfile and tarball. [Successful CI run](https://github.com/Larsottojohnsen/break-my-dashboard/actions/runs/45803001250)
+
 CI is configured for Node 24 on Linux, macOS and Windows. It runs typecheck, unit tests, browser integration, package-content checks, an installed-tarball smoke against an independent synthetic app, and broken/fixed demo runs. It uploads synthetic reports, the lockfile and npm tarball.
 
 Unit coverage includes config limits, local boundary checks, envelope/root-array mutations, explicit text fields, report escaping, paths with spaces, exit codes and partial-run status.
@@ -22,12 +24,10 @@ Additional browser tests cover missing Chromium with a partial report, blocked w
 
 ## Release acceptance still to verify
 
-- Actual CI results and final dependency lockfile review.
 - Human-driven manual-login QA on a realistic local test application.
 - Three realistic application pilots with Codex and Claude Code, including a Next.js browser API route and an authenticated/server-data route.
 - Cold and warm timings including browser installation.
 - Three-developer comparison against existing Playwright workflows.
 - npm package-name ownership, publication and release artifact checks.
-- MIT holder confirmation before a stable release.
 
 No measured speed improvement or external adoption is claimed. A release should retain open checks explicitly if they cannot be completed with available access.
