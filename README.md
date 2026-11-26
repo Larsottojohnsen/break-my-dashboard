@@ -88,7 +88,9 @@ The proposed npm name is `@larsottojohnsen/break-my-dashboard`. npm publication 
 
 ## Supported setups and limits
 
-Browser-visible same-origin local GET JSON with a root or nested array is the supported data model. URL credentials, query strings and fragments are rejected to keep replay configuration private. Endpoints are exact pathnames. Authenticated apps can use a documented local test mode. Interactive in-memory login setup is pending. Server-side API calls require an adapter beyond this version.
+Browser-visible same-origin local GET JSON with a root or nested array is the supported data model. URL credentials, query strings and fragments are rejected to keep replay configuration private. Endpoints are exact pathnames. Authenticated apps can use a documented local test mode or the manual --login setup. Server-side API calls require an adapter beyond this version.
+
+For manual login, use an interactive terminal with a visible desktop. Add --login to discover, run or replay. Sign in with the app's local test account in the isolated browser, then press Enter in the terminal. Cookies, local storage and IndexedDB session state are passed in memory into fresh read-only scenario contexts. The setup browser closes before testing. Each command requires a fresh login. Human-driven login QA on a real application remains an open acceptance check.
 
 Platform results are published by CI. See [verification](docs/verification.md) for actual status. [Troubleshooting](docs/troubleshooting.md) covers missing browsers, network boundaries and coverage gaps.
 

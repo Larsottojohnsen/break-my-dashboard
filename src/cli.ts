@@ -6,14 +6,16 @@ import { chromium } from "playwright";
 import { createRequire } from "node:module";
 import { run } from "./runner.js";
 import { discover } from "./discover.js";
+import { login } from "./login.js";
+import { validate } from "./config.js";
 import { startDemo, demoConfig } from "./demo.js";
 import { exitCode, outputDirectory, type Run } from "./report.js";
 const help = `Break My Dashboard 0.1.0
   break-my-dashboard doctor
   break-my-dashboard demo [--fixed] --out <directory>
-  break-my-dashboard discover --url <loopback-url> --out <directory> [--json]
-  break-my-dashboard run --config <file|-> --out <directory>
-  break-my-dashboard replay --run <run.json> --case <scenario@widthxheight> [--fixed] [--out <directory>]
+  break-my-dashboard discover --url <loopback-url> --out <directory> [--json] [--login]
+  break-my-dashboard run --config <file|-> --out <directory> [--login]
+  break-my-dashboard replay --run <run.json> --case <scenario@widthxheight> [--fixed] [--login] [--out <directory>]
 Every run creates a unique bmd-* child directory. Exit 0 clean, 1 findings, 2 blocked/error.
 Node 24 and matched Chromium are required.`;
 async function readInput(file: string) {
@@ -42,6 +44,7 @@ async function main() {
       json: { type: "boolean" },
       fixed: { type: "boolean" },
       help: { type: "boolean" },
+      login: { type: "boolean" },
     },
   });
   const command = positionals[0];
@@ -92,7 +95,8 @@ async function main() {
   }
   if (command === "discover") {
     if (!values.url) throw new Error("--url is required.");
-    const result = await discover(values.url);
+    const session = values.login ? await login(values.url) : undefined;
+    const result = await discover(values.url, session);
     const directory = await outputDirectory(values.out ?? "./results");
     await writeFile(
       join(directory, "discovery.json"),
@@ -135,10 +139,9 @@ async function main() {
   if (command === "run") {
     if (!values.config)
       throw new Error("--config is required. Use - for stdin.");
-    const result = await run(
-      await readInput(values.config),
-      values.out ?? "./results",
-    );
+    const config = validate(await readInput(values.config));
+    const session = values.login ? await login(config.url) : undefined;
+    const result = await run(config, values.out ?? "./results", { session });
     console.log(
       JSON.stringify(
         {
@@ -161,6 +164,10 @@ async function main() {
       throw new Error("Unsupported saved run.");
     const previous = saved.results.find((result) => result.id === values.case);
     if (!previous) throw new Error("Case is absent from saved run.");
+    const session =
+      values.login && !saved.demo
+        ? await login(validate(saved.config).url)
+        : undefined;
     const server = saved.demo
       ? await startDemo(values.fixed ?? saved.demo.fixed)
       : undefined;
@@ -170,6 +177,7 @@ async function main() {
         caseId: previous.id,
         demo: server ? { fixed: values.fixed ?? saved.demo!.fixed } : undefined,
         previous,
+        session,
       });
       console.log(
         JSON.stringify(
@@ -190,9 +198,13 @@ async function main() {
   }
   throw new Error("Unknown command. Use --help.");
 }
-main().catch(() => {
+main().catch((error: unknown) => {
   console.error(
-    "Blocked or invalid run. Check arguments, local server and doctor. Use --help for usage.",
+    "Blocked or invalid run. " +
+      (error instanceof Error
+        ? error.message
+        : "Check arguments, local server and doctor.") +
+      " Use --help for usage.",
   );
   process.exitCode = 2;
 });

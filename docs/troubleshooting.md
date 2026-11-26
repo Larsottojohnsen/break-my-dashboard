@@ -2,6 +2,8 @@
 
 Run break-my-dashboard doctor to see Node, platform, Playwright and Chromium status. Use Node 24. Install the matching browser with npx playwright@1.65.1 install chromium. Linux may require --with-deps. Browser installation is never an implicit package install step.
 
+Manual --login requires a PTY or interactive terminal and a visible desktop. Complete sign-in with a local test account and press Enter in that terminal within five minutes. Return to the same local origin before confirming. Session state stays in memory and is discarded when the command exits. Session-storage-only authentication is outside this flow. Use the app's documented local test mode for those apps. CI tests cookie-session transfer and privacy in a synthetic authenticated app.
+
 An error result means a valid conclusion was blocked. Confirm the local server responds, the selected endpoint returns HTTP 200 JSON, and Chromium can launch. Scenario deadlines include navigation, interception, state checks and screenshots. An interrupted run writes a partial report where possible and exits 2.
 
 A skipped endpoint means the browser did not reach the configured GET. Check route, login, exact pathname and server-side rendering. Service workers are blocked. HTTP writes, WebSockets and external-origin requests are blocked and counted. Locally proxy required dependencies when your documented dev setup permits it.

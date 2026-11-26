@@ -6,6 +6,7 @@ import { validate, type Config } from "./config.js";
 import { guard, launch, readJson } from "./browser.js";
 import { scenarios, mutate, shape, type Scenario } from "./scenarios.js";
 import { layout, locator, expectedState } from "./checks.js";
+import type { Session } from "./login.js";
 import {
   outputDirectory,
   writeReport,
@@ -19,6 +20,7 @@ type Options = {
   demo?: { fixed: boolean };
   previous?: CaseResult;
   signal?: AbortSignal;
+  session?: Session;
 };
 async function runCase(
   browser: Browser,
@@ -27,6 +29,7 @@ async function runCase(
   viewport: Config["viewports"][number],
   directory: string,
   signal: AbortSignal,
+  session?: Session,
 ): Promise<CaseResult> {
   const start = Date.now();
   const result: CaseResult = {
@@ -44,6 +47,7 @@ async function runCase(
     locale: "en-US",
     timezoneId: "UTC",
     serviceWorkers: "block",
+    storageState: session,
   });
   const abort = () => {
     void context.close().catch(() => {});
@@ -321,6 +325,7 @@ export async function run(input: unknown, out: string, options: Options = {}) {
         item.viewport,
         directory,
         controller.signal,
+        options.session,
       );
       const baseline = report.results.find(
         (r) =>

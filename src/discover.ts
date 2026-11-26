@@ -1,6 +1,7 @@
 import { guard, launch, readJson } from "./browser.js";
 import { localUrl } from "./config.js";
-export async function discover(input: string) {
+import type { Session } from "./login.js";
+export async function discover(input: string, session?: Session) {
   const url = localUrl(input);
   const browser = await launch();
   const candidates = new Map<
@@ -13,7 +14,10 @@ export async function discover(input: string) {
     }
   >();
   const pending: Promise<void>[] = [];
-  const context = await browser.newContext({ serviceWorkers: "block" });
+  const context = await browser.newContext({
+    serviceWorkers: "block",
+    storageState: session,
+  });
   const deadline = setTimeout(() => {
     void context.close().catch(() => {});
   }, 15000);

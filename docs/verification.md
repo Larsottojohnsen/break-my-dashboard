@@ -18,10 +18,12 @@ Unit coverage includes config limits, local boundary checks, envelope/root-array
 
 Browser coverage includes ten demo cases, normal state without overflow, measured mobile overflow, the HTTP 500 alert contract, replay, fixed mode, unmatched mock, unavailable page, interruption and privacy checks. The independent tarball smoke uses /records with nested data.records in a separate temporary consumer project.
 
+Additional browser tests cover missing Chromium with a partial report, blocked writes, external navigation redirects and in-memory authenticated cookie transfer. The installed npm binary is invoked through npm exec in the independent consumer. Manual --login has a five-minute interactive setup deadline and then transfers session state into read-only contexts.
+
 ## Release acceptance still to verify
 
 - Actual CI results and final dependency lockfile review.
-- Interactive manual-login handoff with in-memory storage.
+- Human-driven manual-login QA on a realistic local test application.
 - Three realistic application pilots with Codex and Claude Code, including a Next.js browser API route and an authenticated/server-data route.
 - Cold and warm timings including browser installation.
 - Three-developer comparison against existing Playwright workflows.
