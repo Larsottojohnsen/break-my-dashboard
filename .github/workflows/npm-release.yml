@@ -23,7 +23,7 @@ permissions:
 jobs:
   package:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       SOURCE_REF: ${{ github.event.release.tag_name || inputs.ref }}
       PUBLISH: ${{ github.event_name == 'release' || inputs.publish }}
@@ -128,6 +128,30 @@ jobs:
           TARBALL: ${{ steps.pack.outputs.tarball }}
           NPM_TAG: ${{ steps.package.outputs.tag }}
         run: npm publish "$TARBALL" --access public --provenance --ignore-scripts --tag "$NPM_TAG"
+      - name: Verify published registry integrity
+        if: env.PUBLISH == 'true' && steps.registry.outputs.exists != 'true'
+        env:
+          VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          import { setTimeout } from 'node:timers/promises';
+          const [packed] = JSON.parse(readFileSync('release-artifacts/pack.json', 'utf8'));
+          const url = `https://registry.npmjs.org/${encodeURIComponent(packed.name)}/${encodeURIComponent(process.env.VERSION)}`;
+          for (let attempt = 0; attempt < 30; attempt++) {
+            const response = await fetch(url, { signal: AbortSignal.timeout(30000) });
+            if (response.ok) {
+              const published = await response.json();
+              if (published.dist?.integrity !== packed.integrity) throw Error('Published tarball integrity differs from the tested artifact');
+              console.log(`Verified published ${packed.name}@${process.env.VERSION} integrity`);
+              process.exit(0);
+            }
+            if (response.status !== 404) throw Error(`Registry verification failed with HTTP ${response.status}`);
+            console.log('Waiting for npm package processing');
+            await setTimeout(30000);
+          }
+          throw Error('npm processing did not complete within 15 minutes. Check the registry before retrying the workflow.');
+          NODE
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -38,7 +38,7 @@ The account must own the larsottojohnsen user scope or have publishing access to
 
 ## GitHub Actions publishing
 
-Publishing a GitHub release automatically starts the Prepare or publish npm workflow. Set the package version and lockfile first, commit the changes and create the matching tag, such as v0.1.1. Publish the GitHub release for that tag. The workflow tests the exact tarball, publishes with OIDC and provenance, and retains the publication artifacts. Stable package versions use latest, and prerelease versions use next.
+Publishing a GitHub release automatically starts the Prepare or publish npm workflow. Set the package version and lockfile first, commit the changes and create the matching tag, such as v0.1.1. Publish the GitHub release for that tag. The workflow tests the exact tarball, publishes with OIDC and provenance, verifies registry integrity after npm processing, and retains the publication artifacts. Stable package versions use latest, and prerelease versions use next.
 
 Run the workflow manually with publish=false to verify a branch or tag, including the live npm OIDC exchange. A manual publishing run uses the matching version tag with publish=true. Concurrent runs for the same ref are serialized. Retrying an already published version completes with an explicit skip. npm processing can delay registry availability after a successful publication.
 
