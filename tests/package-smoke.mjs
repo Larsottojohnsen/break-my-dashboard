@@ -37,6 +37,7 @@ try {
     }),
   );
   command(["install", "--ignore-scripts", resolve(packed.filename)], external);
+  command(["exec", "--no", "--", "break-my-dashboard", "doctor"], external);
   // Independent synthetic app has a different route and nested response envelope.
   const { createServer } = await import("node:http");
   const server = createServer((req, res) => {
